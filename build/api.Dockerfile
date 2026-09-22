@@ -30,6 +30,8 @@ RUN apk add --no-cache \
     && rm -rf /var/cache/apk/*
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
     PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
+# db:seed-prod roda "tsx ./src/seed/seed-prod.ts"; tsx é devDependency no upstream.
+RUN npm install -g tsx@4.20.6
 RUN chmod +x /app/entrypoint.sh
 EXPOSE 3000
 ENTRYPOINT ["/app/entrypoint.sh"]
