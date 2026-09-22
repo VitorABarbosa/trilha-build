@@ -465,6 +465,409 @@ index 952c137..7ca09f4 100644
            ...(process.env.NODE_ENV === "production"
              ? [
                  { src: "app/assets/svgs/app-logo.svg", dest: "app/assets/svgs" },
+diff --git a/packages/email-templates/src/translations/announcementEmail.ts b/packages/email-templates/src/translations/announcementEmail.ts
+index 2b8d0ab..bda54ed 100644
+--- a/packages/email-templates/src/translations/announcementEmail.ts
++++ b/packages/email-templates/src/translations/announcementEmail.ts
+@@ -43,6 +43,11 @@ export const getAnnouncementEmailTranslations = (
+       paragraphs: [content],
+       buttonText: "Ouvrir les notifications",
+     },
++    pt: {
++      heading: title,
++      paragraphs: [content],
++      buttonText: "Abrir notificações",
++    },
+   };
+ 
+   return emailContent[language];
+diff --git a/packages/email-templates/src/translations/certificateExpirationWarning.ts b/packages/email-templates/src/translations/certificateExpirationWarning.ts
+index ab7949d..e36f12c 100644
+--- a/packages/email-templates/src/translations/certificateExpirationWarning.ts
++++ b/packages/email-templates/src/translations/certificateExpirationWarning.ts
+@@ -63,6 +63,14 @@ export const getCertificateExpirationWarningEmailTranslations = (
+       ],
+       buttonText: "OUVRIR LE COURS",
+     },
++    pt: {
++      heading: "Certificado expira em breve",
++      paragraphs: [
++        `Seu certificado do curso ${courseName} expira em ${expiresAt}.`,
++        "Após a expiração, seu progresso no curso será redefinido e você precisará concluir o curso novamente para receber um novo certificado.",
++      ],
++      buttonText: "ABRIR CURSO",
++    },
+   };
+ 
+   return emailContent[language];
+diff --git a/packages/email-templates/src/translations/certificateExpired.ts b/packages/email-templates/src/translations/certificateExpired.ts
+index d815f42..2278484 100644
+--- a/packages/email-templates/src/translations/certificateExpired.ts
++++ b/packages/email-templates/src/translations/certificateExpired.ts
+@@ -81,6 +81,16 @@ export const getCertificateExpiredEmailTranslations = (
+       ],
+       buttonText: "OUVRIR LE COURS",
+     },
++    pt: {
++      heading: isManualReset ? "Certificado redefinido" : "Certificado expirado",
++      paragraphs: [
++        isManualReset
++          ? `Seu certificado do curso ${courseName} foi redefinido por um administrador.`
++          : `Seu certificado do curso ${courseName} expirou.`,
++        "O certificado foi arquivado e seu progresso no curso foi redefinido. Conclua o curso novamente para receber um novo certificado.",
++      ],
++      buttonText: "ABRIR CURSO",
++    },
+   };
+ 
+   return emailContent[language];
+diff --git a/packages/email-templates/src/translations/courseDueDateReminder.ts b/packages/email-templates/src/translations/courseDueDateReminder.ts
+index 2312487..9e8b3fa 100644
+--- a/packages/email-templates/src/translations/courseDueDateReminder.ts
++++ b/packages/email-templates/src/translations/courseDueDateReminder.ts
+@@ -13,6 +13,7 @@ const getDaysLabel = (language: SupportedLanguages, daysBeforeDueDate: number) =
+       cs: "brzy",
+       es: "pronto",
+       fr: "bientôt",
++      pt: "em breve",
+     };
+ 
+     return labels[language];
+@@ -27,6 +28,7 @@ const getDaysLabel = (language: SupportedLanguages, daysBeforeDueDate: number) =
+       cs: "zítra",
+       es: "mañana",
+       fr: "demain",
++      pt: "amanhã",
+     };
+ 
+     return labels[language];
+@@ -41,6 +43,7 @@ const getDaysLabel = (language: SupportedLanguages, daysBeforeDueDate: number) =
+       cs: "dnes",
+       es: "hoy",
+       fr: "aujourd'hui",
++      pt: "hoje",
+     };
+ 
+     return labels[language];
+@@ -54,6 +57,7 @@ const getDaysLabel = (language: SupportedLanguages, daysBeforeDueDate: number) =
+     cs: `za ${daysBeforeDueDate} dní`,
+     es: `en ${normalizedDaysBeforeDueDate} días`,
+     fr: `dans ${normalizedDaysBeforeDueDate} jours`,
++    pt: `em ${normalizedDaysBeforeDueDate} dias`,
+   };
+ 
+   return labels[language];
+@@ -103,6 +107,11 @@ export const getCourseDueDateReminderEmailTranslations = (
+       paragraphs: [`La date limite pour terminer le cours « ${courseName} » est ${daysLabel}.`],
+       buttonText: "OUVRIR LE COURS",
+     },
++    pt: {
++      heading: "O prazo do curso está chegando",
++      paragraphs: [`O prazo para concluir o curso "${courseName}" é ${daysLabel}.`],
++      buttonText: "ABRIR CURSO",
++    },
+   };
+ 
+   return emailContent[language];
+diff --git a/packages/email-templates/src/translations/createPasswordReminder.ts b/packages/email-templates/src/translations/createPasswordReminder.ts
+index 565a4e0..b15e293 100644
+--- a/packages/email-templates/src/translations/createPasswordReminder.ts
++++ b/packages/email-templates/src/translations/createPasswordReminder.ts
+@@ -59,6 +59,14 @@ export const getCreatePasswordReminderEmailTranslations = (language: SupportedLa
+       ],
+       buttonText: "CRÉER UN MOT DE PASSE",
+     },
++    pt: {
++      heading: "Lembrete",
++      paragraphs: [
++        "Este é um lembrete amigável de que sua conta ainda não está totalmente configurada. 🔒",
++        "Para concluir a configuração da sua conta, crie sua senha clicando no botão abaixo. Se você já criou sua senha, ignore este lembrete.",
++      ],
++      buttonText: "CRIAR SENHA",
++    },
+   };
+ 
+   return emailContent[language];
+diff --git a/packages/email-templates/src/translations/finishedCourse.ts b/packages/email-templates/src/translations/finishedCourse.ts
+index 80332b4..4e04803 100644
+--- a/packages/email-templates/src/translations/finishedCourse.ts
++++ b/packages/email-templates/src/translations/finishedCourse.ts
+@@ -54,6 +54,11 @@ export const getFinishedCourseEmailTranslations = (
+       ],
+       buttonText: "VOIR LA PROGRESSION",
+     },
++    pt: {
++      heading: "Usuário concluiu o curso",
++      paragraphs: ["Olá! 🧑‍💻", `${userName} concluiu ${courseName}. Confira o progresso.`],
++      buttonText: "VER PROGRESSO",
++    },
+   };
+ 
+   return emailContent[language];
+diff --git a/packages/email-templates/src/translations/liveTrainingEmail.ts b/packages/email-templates/src/translations/liveTrainingEmail.ts
+index 4e4d822..df38101 100644
+--- a/packages/email-templates/src/translations/liveTrainingEmail.ts
++++ b/packages/email-templates/src/translations/liveTrainingEmail.ts
+@@ -9,6 +9,7 @@ export const getLiveTrainingEmailButtonText = (language: SupportedLanguages) =>
+     cs: "Otevřít živé školení",
+     es: "Abrir formación en vivo",
+     fr: "Ouvrir la formation en direct",
++    pt: "Abrir treinamento ao vivo",
+   };
+ 
+   return translations[language];
+diff --git a/packages/email-templates/src/translations/magicLink.ts b/packages/email-templates/src/translations/magicLink.ts
+index 4577050..758e9be 100644
+--- a/packages/email-templates/src/translations/magicLink.ts
++++ b/packages/email-templates/src/translations/magicLink.ts
+@@ -52,6 +52,13 @@ export const getMagicLinkEmailTranslations = (language: SupportedLanguages) => {
+       ],
+       buttonText: "OUVRIR LE LIEN DE CONNEXION",
+     },
++    pt: {
++      heading: "Link de acesso",
++      paragraphs: [
++        "Você recebeu um link de acesso à sua conta. Clique no botão abaixo para abri-lo.",
++      ],
++      buttonText: "ABRIR LINK DE ACESSO",
++    },
+   };
+ 
+   return emailContent[language];
+diff --git a/packages/email-templates/src/translations/newUser.ts b/packages/email-templates/src/translations/newUser.ts
+index 3f1b4b9..d77fdaf 100644
+--- a/packages/email-templates/src/translations/newUser.ts
++++ b/packages/email-templates/src/translations/newUser.ts
+@@ -44,6 +44,11 @@ export const getNewUserEmailTranslations = (language: SupportedLanguages, userNa
+       ],
+       buttonText: "OUVRIR LE PROFIL",
+     },
++    pt: {
++      heading: "Novo perfil de usuário",
++      paragraphs: ["Olá! 🧑‍💻", `${userName} entrou na plataforma. Confira o perfil e atribua cursos.`],
++      buttonText: "ABRIR PERFIL",
++    },
+   };
+ 
+   return emailContent[language];
+diff --git a/packages/email-templates/src/translations/overdueCourses.ts b/packages/email-templates/src/translations/overdueCourses.ts
+index f72542d..7759b4e 100644
+--- a/packages/email-templates/src/translations/overdueCourses.ts
++++ b/packages/email-templates/src/translations/overdueCourses.ts
+@@ -103,6 +103,15 @@ export const getOverdueCoursesEmailTranslations = (
+       dueDateLabel: "Date limite",
+       studentsLabel: "Apprenants",
+     },
++    pt: {
++      heading: "Alunos com cursos atrasados",
++      intro: "Alguns alunos não concluíram seus cursos no prazo:",
++      buttonText: "VER CURSOS",
++      courseLabel: "Curso",
++      groupLabel: "Grupo",
++      dueDateLabel: "Prazo",
++      studentsLabel: "Alunos",
++    },
+   };
+ 
+   const selectedLabels = labels[language];
+diff --git a/packages/email-templates/src/translations/passwordRecovery.ts b/packages/email-templates/src/translations/passwordRecovery.ts
+index b336590..bfec9ea 100644
+--- a/packages/email-templates/src/translations/passwordRecovery.ts
++++ b/packages/email-templates/src/translations/passwordRecovery.ts
+@@ -62,6 +62,14 @@ export const getPasswordRecoveryEmailTranslations = (
+       ],
+       buttonText: "RÉINITIALISER LE MOT DE PASSE",
+     },
++    pt: {
++      heading: "Recuperação de senha",
++      paragraphs: [
++        `Olá ${name}, você solicitou a redefinição da sua senha 🔑`,
++        "Você pode redefinir sua senha usando o botão abaixo.",
++      ],
++      buttonText: "REDEFINIR SENHA",
++    },
+   };
+ 
+   return emailContent[language];
+diff --git a/packages/email-templates/src/translations/userAssignedToCourse.ts b/packages/email-templates/src/translations/userAssignedToCourse.ts
+index ade415f..dc31960 100644
+--- a/packages/email-templates/src/translations/userAssignedToCourse.ts
++++ b/packages/email-templates/src/translations/userAssignedToCourse.ts
+@@ -27,6 +27,9 @@ export const getUserAssignedToCourseEmailTranslations = (
+   const frMandatoryCourseParagraph = formatedCourseDueDate
+     ? `Ce cours est obligatoire et doit être terminé avant le ${formatedCourseDueDate}.`
+     : undefined;
++  const ptMandatoryCourseParagraph = formatedCourseDueDate
++    ? `Este curso é obrigatório e deve ser concluído até ${formatedCourseDueDate}.`
++    : undefined;
+ 
+   const emailContent: Record<SupportedLanguages, EmailContent> = {
+     en: {
+@@ -92,6 +95,15 @@ export const getUserAssignedToCourseEmailTranslations = (
+       ].filter(Boolean) as string[],
+       buttonText: "MES COURS",
+     },
++    pt: {
++      heading: "Novo curso",
++      paragraphs: [
++        "Você foi matriculado 🎓",
++        `Agora você tem acesso a ${courseName}. Ele está disponível na sua conta.`,
++        ptMandatoryCourseParagraph,
++      ].filter(Boolean) as string[],
++      buttonText: "MEUS CURSOS",
++    },
+   };
+ 
+   return emailContent[language];
+diff --git a/packages/email-templates/src/translations/userFinishedChapter.ts b/packages/email-templates/src/translations/userFinishedChapter.ts
+index 6e888cd..7c02f7f 100644
+--- a/packages/email-templates/src/translations/userFinishedChapter.ts
++++ b/packages/email-templates/src/translations/userFinishedChapter.ts
+@@ -63,6 +63,14 @@ export const getUserFinishedChapterEmailTranslations = (
+       ],
+       buttonText: "CHAPITRE SUIVANT",
+     },
++    pt: {
++      heading: "Capítulo concluído",
++      paragraphs: [
++        "Progresso atualizado 🧩",
++        `Você concluiu ${chapterName} em ${courseName}. Os próximos materiais estão prontos.`,
++      ],
++      buttonText: "PRÓXIMO CAPÍTULO",
++    },
+   };
+ 
+   return emailContent[language];
+diff --git a/packages/email-templates/src/translations/userFinishedCourse.ts b/packages/email-templates/src/translations/userFinishedCourse.ts
+index abc406e..deb9a13 100644
+--- a/packages/email-templates/src/translations/userFinishedCourse.ts
++++ b/packages/email-templates/src/translations/userFinishedCourse.ts
+@@ -63,6 +63,14 @@ export const getUserFinishedCourseEmailTranslations = (
+       ],
+       buttonText: hasCertificate ? "TÉLÉCHARGER LE CERTIFICAT" : "CONTINUER À APPRENDRE",
+     },
++    pt: {
++      heading: "Curso concluído",
++      paragraphs: [
++        "Parabéns! 🏁",
++        `Você concluiu ${courseName}. ${hasCertificate ? "Seu certificado está pronto para baixar; confira os próximos passos recomendados." : ""}`,
++      ],
++      buttonText: hasCertificate ? "BAIXAR CERTIFICADO" : "CONTINUAR APRENDENDO",
++    },
+   };
+ 
+   return emailContent[language];
+diff --git a/packages/email-templates/src/translations/userFirstLogin.ts b/packages/email-templates/src/translations/userFirstLogin.ts
+index 3205c61..8ac3547 100644
+--- a/packages/email-templates/src/translations/userFirstLogin.ts
++++ b/packages/email-templates/src/translations/userFirstLogin.ts
+@@ -59,6 +59,14 @@ export const getUserFirstLoginEmailTranslations = (language: SupportedLanguages,
+       ],
+       buttonText: "MES COURS",
+     },
++    pt: {
++      heading: "Bem-vindo",
++      paragraphs: [
++        "Que bom ter você aqui 🙂",
++        `Seu primeiro acesso foi realizado com sucesso. ${name}, confira os cursos atribuídos a você.`,
++      ],
++      buttonText: "MEUS CURSOS",
++    },
+   };
+ 
+   return emailContent[language];
+diff --git a/packages/email-templates/src/translations/userInvite.ts b/packages/email-templates/src/translations/userInvite.ts
+index 1a28d35..4a8406d 100644
+--- a/packages/email-templates/src/translations/userInvite.ts
++++ b/packages/email-templates/src/translations/userInvite.ts
+@@ -62,6 +62,14 @@ export const getUserInviteEmailTranslations = (
+       ],
+       buttonText: "REJOINDRE MAINTENANT",
+     },
++    pt: {
++      heading: "Você foi convidado",
++      paragraphs: [
++        "Olá 👋",
++        `Você foi convidado para a plataforma de e-learning por ${invitedByUserName}. Clique no botão abaixo para começar a desenvolver suas habilidades.`,
++      ],
++      buttonText: "ENTRAR AGORA",
++    },
+   };
+ 
+   return emailContent[language];
+diff --git a/packages/email-templates/src/translations/userLongInactivity.ts b/packages/email-templates/src/translations/userLongInactivity.ts
+index de49be8..0430b06 100644
+--- a/packages/email-templates/src/translations/userLongInactivity.ts
++++ b/packages/email-templates/src/translations/userLongInactivity.ts
+@@ -13,6 +13,7 @@ export const getUserLongInactivityEmailTranslations = (
+     cs: courseName ? `v kurzu ${courseName}` : "na platformě",
+     es: courseName ? `en ${courseName}` : "en la plataforma",
+     fr: courseName ? `dans le cours ${courseName}` : "sur la plateforme",
++    pt: courseName ? `em ${courseName}` : "na plataforma",
+   };
+ 
+   const emailContent: Record<SupportedLanguages, EmailContent> = {
+@@ -72,6 +73,14 @@ export const getUserLongInactivityEmailTranslations = (
+       ],
+       buttonText: "REPRENDRE LE COURS",
+     },
++    pt: {
++      heading: "Hora de retomar seu curso",
++      paragraphs: [
++        "Continue aprendendo 📚",
++        `Já se passaram 30 dias desde sua última atividade ${activityContext.pt}. Retomar agora vai ajudar você a concluir no prazo.`,
++      ],
++      buttonText: "RETOMAR CURSO",
++    },
+   };
+ 
+   return emailContent[language];
+diff --git a/packages/email-templates/src/translations/userShortInactivity.ts b/packages/email-templates/src/translations/userShortInactivity.ts
+index a4570f3..7ac6eda 100644
+--- a/packages/email-templates/src/translations/userShortInactivity.ts
++++ b/packages/email-templates/src/translations/userShortInactivity.ts
+@@ -13,6 +13,7 @@ export const getUserShortInactivityEmailTranslations = (
+     cs: courseName ? `v kurzu ${courseName}` : "na platformě",
+     es: courseName ? `en ${courseName}` : "en la plataforma",
+     fr: courseName ? `dans le cours ${courseName}` : "sur la plateforme",
++    pt: courseName ? `em ${courseName}` : "na plataforma",
+   };
+ 
+   const emailContent: Record<SupportedLanguages, EmailContent> = {
+@@ -72,6 +73,14 @@ export const getUserShortInactivityEmailTranslations = (
+       ],
+       buttonText: courseName ? "CONTINUER LE COURS" : "OUVRIR LA PLATEFORME",
+     },
++    pt: {
++      heading: "Lembrete",
++      paragraphs: [
++        "Retome seus estudos 🔔",
++        `Já se passaram 14 dias desde sua última atividade ${activityContext.pt}. Continue para manter seu progresso em dia.`,
++      ],
++      buttonText: courseName ? "CONTINUAR CURSO" : "ABRIR PLATAFORMA",
++    },
+   };
+ 
+   return emailContent[language];
+diff --git a/packages/email-templates/src/translations/welcome.ts b/packages/email-templates/src/translations/welcome.ts
+index 7226905..a9ef4da 100644
+--- a/packages/email-templates/src/translations/welcome.ts
++++ b/packages/email-templates/src/translations/welcome.ts
+@@ -59,6 +59,14 @@ export const getWelcomeEmailTranslations = (language: SupportedLanguages) => {
+       ],
+       buttonText: "VOIR LES COURS",
+     },
++    pt: {
++      heading: "Bem-vindo",
++      paragraphs: [
++        "Que bom ter você aqui 🙂",
++        "Sua conta foi criada com sucesso. Confira os cursos disponíveis.",
++      ],
++      buttonText: "VER CURSOS",
++    },
+   };
+ 
+   return emailContent[language];
 diff --git a/packages/shared/src/constants/languages.ts b/packages/shared/src/constants/languages.ts
 index d63581a..30e4b7a 100644
 --- a/packages/shared/src/constants/languages.ts
