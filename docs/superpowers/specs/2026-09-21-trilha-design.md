@@ -147,13 +147,29 @@ trilha.flyingstudio.com.br {
 
 WebSocket do Mentingo vive em `/api/ws`, já coberto. Não reescrever `/api`.
 
+**Storage precisa de hostname público.** O Mentingo entrega arquivos ao
+navegador por URL pré-assinada apontando direto para o endpoint S3, e a
+assinatura cobre host e caminho. Logo o MinIO recebe um segundo registro DNS,
+`trilha-storage.flyingstudio.com.br` (nuvem cinza), roteado pelo mesmo
+`trilha.caddy` para `trilha-minio:9000`. `S3_ENDPOINT` na API é essa URL
+pública (a API a resolve pelo DNS e passa pelo Caddy). Console do MinIO
+(porta 9001) não é publicado. Exceção deliberada à regra "um nome, um
+subdomínio": é o mesmo app, mesma pasta, mesmo arquivo de proxy.
+
+Localmente o mesmo desenho roda em HTTP puro (`http://trilha.localhost` e
+`http://trilha-storage.localhost`) com `NODE_ENV=development`, porque o
+cookie de sessão é `secure` em produção e o navegador o rejeitaria sem TLS.
+A API resolve esses nomes por alias de rede do serviço `caddy` local no
+Compose.
+
 ### Validação local
 
 `docker-compose.local.yml` sobrepõe: imagens `-local` (ou build local pelos
 mesmos Dockerfiles), um serviço `caddy` na rede `internal` publicando
-`127.0.0.1:443` com `tls internal` para `trilha.localhost`, e
-`CORS_ORIGIN=https://trilha.localhost`. Chrome resolve `*.localhost`
-sozinho. O `.env` local tem segredos gerados descartáveis.
+`127.0.0.1:80` em HTTP puro para `trilha.localhost` e
+`trilha-storage.localhost`, `CORS_ORIGIN=http://trilha.localhost`,
+`NODE_ENV=development`. Chrome resolve `*.localhost` sozinho. O `.env`
+local tem segredos gerados descartáveis.
 
 Roteiro de aceite local (também é o roteiro de aceite na VPS):
 
