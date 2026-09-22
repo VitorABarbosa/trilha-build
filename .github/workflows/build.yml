@@ -1,0 +1,85 @@
+name: build
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Tag de imagem (ex.: 4.20.1-pt.1)"
+        required: true
+
+permissions:
+  contents: read
+  packages: write
+
+env:
+  REGISTRY: ghcr.io
+  OWNER: vitorabarbosa
+
+jobs:
+  meta:
+    runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.t.outputs.tag }}
+      upstream: ${{ steps.t.outputs.upstream }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: t
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then TAG="${{ inputs.tag }}"; else TAG="${GITHUB_REF_NAME#v}"; fi
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "upstream=$(tr -d '[:space:]' < MENTINGO_VERSION)" >> "$GITHUB_OUTPUT"
+
+  api:
+    needs: meta
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: build/api.Dockerfile
+          push: true
+          build-args: MENTINGO_VERSION=${{ needs.meta.outputs.upstream }}
+          tags: ${{ env.REGISTRY }}/${{ env.OWNER }}/trilha-api:${{ needs.meta.outputs.tag }}
+          cache-from: type=gha,scope=api
+          cache-to: type=gha,scope=api,mode=max
+
+  web:
+    needs: meta
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - suffix: prod
+            api_url: https://trilha.flyingstudio.com.br/api
+            app_url: https://trilha.flyingstudio.com.br
+          - suffix: local
+            api_url: http://trilha.localhost/api
+            app_url: http://trilha.localhost
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: build/web.Dockerfile
+          push: true
+          build-args: |
+            MENTINGO_VERSION=${{ needs.meta.outputs.upstream }}
+            VITE_API_URL=${{ matrix.api_url }}
+            VITE_APP_URL=${{ matrix.app_url }}
+          tags: ${{ env.REGISTRY }}/${{ env.OWNER }}/trilha-web:${{ needs.meta.outputs.tag }}-${{ matrix.suffix }}
+          cache-from: type=gha,scope=web
+          cache-to: type=gha,scope=web,mode=max
