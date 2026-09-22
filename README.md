@@ -18,7 +18,7 @@ fixa, com interface em pt-BR aplicada como overlay no build. Sem fork.
 | `bash scripts/upstream.sh` | clona o upstream na tag em `upstream/` |
 | `node scripts/i18n/split.mjs` | quebra `en/translation.json` em `work/i18n/en/` |
 | `node scripts/i18n/merge.mjs` | valida `work/i18n/pt/` e gera o `pt/translation.json` do overlay |
-| `node --test scripts/i18n/` | testes dos utilitários de tradução |
+| `node --test scripts/i18n/util.test.mjs` | testes dos utilitários de tradução |
 | `bash scripts/apply-overlay.sh upstream` | aplica patch + overlay em `upstream/` e confere |
 | `git tag v4.20.1-pt.1 && git push --tags` | dispara o build no GitHub Actions |
 
