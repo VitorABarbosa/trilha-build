@@ -58,10 +58,10 @@ jobs:
       matrix:
         include:
           - suffix: prod
-            api_url: https://trilha.flyingstudio.com.br/api
+            api_url: https://trilha.flyingstudio.com.br
             app_url: https://trilha.flyingstudio.com.br
           - suffix: local
-            api_url: http://trilha.localhost/api
+            api_url: http://trilha.localhost
             app_url: http://trilha.localhost
     steps:
       - uses: actions/checkout@v4

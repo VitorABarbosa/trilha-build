@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1.7
 # trilha-web: SPA do Mentingo + overlay pt-BR, servido por nginx. Espelha web.Dockerfile do upstream.
-# A URL pública entra em tempo de build (VITE_API_URL, VITE_APP_URL).
+# A URL pública entra em tempo de build. VITE_API_URL é o host SEM /api: o cliente gerado já prefixa /api.
 FROM node:20.15.0-alpine AS source
 ARG MENTINGO_VERSION
 RUN apk add --no-cache git bash
