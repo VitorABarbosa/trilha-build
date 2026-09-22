@@ -3,4 +3,5 @@
 !*.env.example
 node_modules/
 upstream/
+work/i18n/en/
 .DS_Store
