@@ -714,7 +714,7 @@
     "progress": "Progresso",
     "findInApplication": "Buscar na aplicação",
     "courses": "Cursos",
-    "learningPaths": "Trilhas de Desenvolvimento",
+    "learningPaths": "Trilhas de aprendizado",
     "calendar": "Calendário",
     "content": "Conteúdo",
     "categories": "Categorias",
@@ -4850,16 +4850,16 @@
     "tenant": "Detalhes da Organização",
     "createTenant": "Criar Organização",
     "tenants": "Organizações",
-    "learningPaths": "Trilhas de Desenvolvimento",
-    "adminLearningPaths": "Trilhas de Desenvolvimento",
-    "adminLearningPathEditor": "Editor de Trilha de Desenvolvimento"
+    "learningPaths": "Trilhas de aprendizado",
+    "adminLearningPaths": "Trilhas de aprendizado",
+    "adminLearningPathEditor": "Editor de Trilha de aprendizado"
   },
   "learningPathsView": {
-    "title": "Trilhas de Desenvolvimento",
-    "description": "Navegue pelas trilhas de desenvolvimento atribuídas e avance pela sequência ordenada de cursos.",
-    "searchPlaceholder": "Buscar trilhas de desenvolvimento",
-    "summary": "{{count}} trilhas de desenvolvimento disponíveis.",
-    "detailsTitle": "Trilha de Desenvolvimento",
+    "title": "Trilhas de aprendizado",
+    "description": "Navegue pelas trilhas de aprendizado atribuídas e avance pela sequência ordenada de cursos.",
+    "searchPlaceholder": "Buscar trilhas de aprendizado",
+    "summary": "{{count}} trilhas de aprendizado disponíveis.",
+    "detailsTitle": "Trilha de aprendizado",
     "detailsDescription": "Revise a sequência ordenada de cursos, o progresso, os bloqueios e o estado do certificado.",
     "detailsSummary": "Esta trilha contém {{count}} cursos. Progresso atual: {{progress}}.",
     "emptyDescription": "Nenhuma descrição foi adicionada ainda.",
@@ -4878,10 +4878,10 @@
       "certificate": "Certificado"
     },
     "card": {
-      "openPath": "Abrir trilha de desenvolvimento"
+      "openPath": "Abrir trilha de aprendizado"
     },
     "empty": {
-      "title": "Nenhuma trilha de desenvolvimento encontrada",
+      "title": "Nenhuma trilha de aprendizado encontrada",
       "description": "Ajuste sua busca ou volte depois que as trilhas forem atribuídas."
     },
     "progress": {
@@ -4906,12 +4906,12 @@
       "courses": "Cursos desta trilha",
       "courseTitle": "Curso {{number}}",
       "completedAt": "Concluído em {{date}}",
-      "emptyCourses": "Esta trilha de desenvolvimento ainda não inclui nenhum curso."
+      "emptyCourses": "Esta trilha de aprendizado ainda não inclui nenhum curso."
     },
     "enrollment": {
       "manage": "Matricular",
       "title": "Matricular alunos",
-      "description": "Gerencie a matrícula de alunos e grupos nesta trilha de desenvolvimento.",
+      "description": "Gerencie a matrícula de alunos e grupos nesta trilha de aprendizado.",
       "students": "Alunos",
       "selectStudents": "Selecionar alunos",
       "groups": "Grupos",
@@ -4931,9 +4931,9 @@
       "groupsEnrolled": "Grupos matriculados",
       "studentsUnenrolled": "Alunos desmatriculados",
       "groupsUnenrolled": "Grupos desmatriculados",
-      "enrolledSuccessfully": "Matrícula na trilha de desenvolvimento realizada",
-      "enrollGroupsDescription": "Selecione os grupos para matricular nesta trilha de desenvolvimento.",
-      "unenrollGroupsDescription": "Selecione os grupos para desmatricular desta trilha de desenvolvimento.",
+      "enrolledSuccessfully": "Matrícula na trilha de aprendizado realizada",
+      "enrollGroupsDescription": "Selecione os grupos para matricular nesta trilha de aprendizado.",
+      "unenrollGroupsDescription": "Selecione os grupos para desmatricular desta trilha de aprendizado.",
       "table": {
         "selectAll": "Selecionar todos os alunos",
         "select": "Selecionar aluno",
@@ -4949,16 +4949,16 @@
       },
       "confirmation": {
         "title": "Confirmar matrícula",
-        "description": "Tem certeza de que deseja matricular os alunos selecionados nesta trilha de desenvolvimento? Esta ação não pode ser desfeita."
+        "description": "Tem certeza de que deseja matricular os alunos selecionados nesta trilha de aprendizado? Esta ação não pode ser desfeita."
       },
       "unenrollConfirmation": {
         "title": "Confirmação de desmatrícula",
-        "description": "Tem certeza de que deseja desmatricular os alunos selecionados desta trilha de desenvolvimento? Esta ação não pode ser desfeita."
+        "description": "Tem certeza de que deseja desmatricular os alunos selecionados desta trilha de aprendizado? Esta ação não pode ser desfeita."
       },
       "noGroups": "Nenhum grupo disponível"
     },
     "breadcrumbs": {
-      "learningPaths": "Trilhas de Desenvolvimento",
+      "learningPaths": "Trilhas de aprendizado",
       "details": "Detalhes"
     },
     "buttons": {
@@ -4966,26 +4966,26 @@
     }
   },
   "adminLearningPathsView": {
-    "title": "Trilhas de Desenvolvimento",
+    "title": "Trilhas de aprendizado",
     "description": "Gerencie metadados da trilha, configurações de sequência, cursos ordenados, matrículas, exportações e certificados.",
-    "summary": "{{count}} trilhas de desenvolvimento disponíveis neste espaço de trabalho.",
+    "summary": "{{count}} trilhas de aprendizado disponíveis neste espaço de trabalho.",
     "breadcrumbs": {
-      "learningPaths": "Trilhas de Desenvolvimento",
+      "learningPaths": "Trilhas de aprendizado",
       "create": "Criar",
       "edit": "Editar"
     },
     "buttons": {
-      "create": "Criar trilha de desenvolvimento",
+      "create": "Criar trilha de aprendizado",
       "edit": "Editar",
       "save": "Salvar alterações",
       "removeImage": "Remover imagem"
     },
     "editor": {
-      "createTitle": "Criar Trilha de Desenvolvimento",
-      "editTitle": "Editar Trilha de Desenvolvimento",
-      "description": "Configure os detalhes da trilha de desenvolvimento, as opções de sequência, os cursos e o estado de publicação.",
-      "createSummary": "Comece pelos detalhes da trilha de desenvolvimento.",
-      "editSummary": "Esta trilha de desenvolvimento tem atualmente {{coursesCount}} cursos.",
+      "createTitle": "Criar Trilha de aprendizado",
+      "editTitle": "Editar Trilha de aprendizado",
+      "description": "Configure os detalhes da trilha de aprendizado, as opções de sequência, os cursos e o estado de publicação.",
+      "createSummary": "Comece pelos detalhes da trilha de aprendizado.",
+      "editSummary": "Esta trilha de aprendizado tem atualmente {{coursesCount}} cursos.",
       "details": "Detalhes",
       "courses": "Cursos",
       "image": "Imagem",
@@ -5003,14 +5003,14 @@
       "sequential": "Sequencial",
       "flexible": "Flexível",
       "certificate": "Certificado",
-      "empty": "Nenhuma trilha de desenvolvimento foi criada ainda."
+      "empty": "Nenhuma trilha de aprendizado foi criada ainda."
     },
     "form": {
       "language": "Idioma",
       "status": "Status",
       "statusDescription": "Controla se esta trilha fica visível, apenas em rascunho ou privada.",
       "title": "Título",
-      "titlePlaceholder": "Dê um nome à trilha de desenvolvimento",
+      "titlePlaceholder": "Dê um nome à trilha de aprendizado",
       "description": "Descrição",
       "descriptionPlaceholder": "Descreva o que os alunos vão concluir nesta trilha",
       "imageHint": "PNG, JPG ou JPEG (máx. 20 MB, recomendado 1200x1200 ou maior)",
@@ -5019,14 +5019,14 @@
       "includesCertificate": "Certificado",
       "includesCertificateDescription": "Os alunos podem receber um certificado após concluir a trilha.",
       "certificateSignature": "Assinatura do certificado",
-      "certificateSignatureDescription": "Envie a assinatura exibida nos certificados desta trilha de desenvolvimento.",
+      "certificateSignatureDescription": "Envie a assinatura exibida nos certificados desta trilha de aprendizado.",
       "certificateFontColor": "Cor da fonte do certificado",
       "certificateFontColorDescription": "Use o seletor de cor da pré-visualização para atualizar a cor do texto e das linhas do certificado.",
       "certificatePreview": "Pré-visualização do certificado",
       "certificatePreviewDescription": "Pré-visualize o certificado e ajuste a cor da fonte."
     },
     "detailsContent": {
-      "title": "Detalhes da trilha de desenvolvimento",
+      "title": "Detalhes da trilha de aprendizado",
       "description": "Defina o nome localizado e a descrição exibida aos alunos."
     },
     "detailsImage": {
@@ -5041,7 +5041,7 @@
       "baseLanguage": "Idioma base"
     },
     "languageSelector": {
-      "tooltip": "O idioma base desta trilha de desenvolvimento é {{baseLanguage}}."
+      "tooltip": "O idioma base desta trilha de aprendizado é {{baseLanguage}}."
     },
     "courses": {
       "select": "Selecione um curso",
@@ -5052,32 +5052,32 @@
       "course": "Curso",
       "chapter_one": "{{count}} capítulo",
       "chapter_other": "{{count}} capítulos",
-      "empty": "Nenhum curso foi adicionado a esta trilha de desenvolvimento ainda.",
-      "saveFirst": "Salve a trilha de desenvolvimento antes de adicionar cursos.",
+      "empty": "Nenhum curso foi adicionado a esta trilha de aprendizado ainda.",
+      "saveFirst": "Salve a trilha de aprendizado antes de adicionar cursos.",
       "unknownCourse": "Detalhes do curso indisponíveis"
     },
     "sharedLearningPath": {
       "badgeExported": "Compartilhada",
       "exportButton": "Compartilhar",
-      "exportSuccess": "A trilha de desenvolvimento foi exportada",
-      "exportsDescription": "Compartilhe esta trilha de desenvolvimento com as organizações selecionadas.",
+      "exportSuccess": "A trilha de aprendizado foi exportada",
+      "exportsDescription": "Compartilhe esta trilha de aprendizado com as organizações selecionadas.",
       "exportsTitle": "Compartilhamento",
       "exportingButton": "Compartilhando...",
       "selectTenants": "Selecionar organizações",
       "selectedCount": "Selecionadas:"
     },
     "deleteModal": {
-      "title": "Excluir trilha de desenvolvimento",
-      "description": "Isso excluirá a trilha de desenvolvimento e removerá o acesso aos cursos concedido por ela."
+      "title": "Excluir trilha de aprendizado",
+      "description": "Isso excluirá a trilha de aprendizado e removerá o acesso aos cursos concedido por ela."
     },
     "toast": {
       "created": "Trilha de desenvolvimento criada com sucesso",
       "updated": "Trilha de desenvolvimento atualizada com sucesso",
       "deleted": "Trilha de desenvolvimento excluída com sucesso",
-      "languageCreated": "Idioma da trilha de desenvolvimento criado com sucesso",
-      "coursesAdded": "Cursos adicionados à trilha de desenvolvimento com sucesso",
-      "courseRemoved": "Curso removido da trilha de desenvolvimento com sucesso",
-      "coursesReordered": "Cursos da trilha de desenvolvimento reordenados com sucesso"
+      "languageCreated": "Idioma da trilha de aprendizado criado com sucesso",
+      "coursesAdded": "Cursos adicionados à trilha de aprendizado com sucesso",
+      "courseRemoved": "Curso removido da trilha de aprendizado com sucesso",
+      "coursesReordered": "Cursos da trilha de aprendizado reordenados com sucesso"
     }
   },
   "lessonPreview": {
@@ -5185,12 +5185,12 @@
     }
   },
   "learningPathsPreferences": {
-    "subHeader": "Configure as opções das Trilhas de Desenvolvimento",
-    "header": "Configurações das Trilhas de Desenvolvimento",
+    "subHeader": "Configure as opções das Trilhas de aprendizado",
+    "header": "Configurações das Trilhas de aprendizado",
     "settings": {
       "learningPathsEnabled": {
-        "label": "Ativar Trilhas de Desenvolvimento",
-        "description": "Ativar Trilhas de Desenvolvimento. Quando desativadas, as Trilhas de Desenvolvimento ficam ocultas e bloqueadas para todos os usuários."
+        "label": "Ativar Trilhas de aprendizado",
+        "description": "Ativar Trilhas de aprendizado. Quando desativadas, as Trilhas de aprendizado ficam ocultas e bloqueadas para todos os usuários."
       }
     }
   },
