@@ -1,0 +1,503 @@
+diff --git a/apps/api/src/articles/constants/index.ts b/apps/api/src/articles/constants/index.ts
+index 3789d97..f28785e 100644
+--- a/apps/api/src/articles/constants/index.ts
++++ b/apps/api/src/articles/constants/index.ts
+@@ -6,6 +6,7 @@ export const baseArticleTitle = {
+   cs: "Nezařazený článek",
+   es: "Artículo sin título",
+   fr: "Article sans titre",
++  pt: "Artigo sem título",
+ };
+ 
+ export const baseArticleSectionTitle = {
+@@ -16,4 +17,5 @@ export const baseArticleSectionTitle = {
+   cs: "Nezařazená sekce",
+   es: "Sección sin título",
+   fr: "Section sans titre",
++  pt: "Seção sem título",
+ };
+diff --git a/apps/api/src/certificates/certificates.service.ts b/apps/api/src/certificates/certificates.service.ts
+index 2620f9f..96d8bc3 100644
+--- a/apps/api/src/certificates/certificates.service.ts
++++ b/apps/api/src/certificates/certificates.service.ts
+@@ -909,6 +909,11 @@ export class CertificatesService implements OnModuleDestroy {
+         pageTitle: `Certificat de réussite du cours « ${context.certificate.courseTitle} »`,
+         pageDescription: `${context.certificate.fullName} a terminé le cours « ${context.certificate.courseTitle} » et obtenu un certificat.`,
+       },
++      pt: {
++        openLabel: "Abrir plataforma",
++        pageTitle: `Certificado de conclusão do curso "${context.certificate.courseTitle}"`,
++        pageDescription: `${context.certificate.fullName} concluiu "${context.certificate.courseTitle}" e recebeu um certificado.`,
++      },
+     } as const satisfies Record<
+       SupportedLanguages,
+       { openLabel: string; pageTitle: string; pageDescription: string }
+diff --git a/apps/api/src/common/emails/translations.ts b/apps/api/src/common/emails/translations.ts
+index 7874f18..0616eb9 100644
+--- a/apps/api/src/common/emails/translations.ts
++++ b/apps/api/src/common/emails/translations.ts
+@@ -9,6 +9,7 @@ export const EMAIL_SUBJECTS_TRANSLATIONS = {
+     cs: "Vítejte na naší platformě!",
+     es: "¡Bienvenido a nuestra plataforma!",
+     fr: "Bienvenue sur notre plateforme !",
++    pt: "Bem-vindo à nossa plataforma!",
+   },
+   passwordRecoveryEmail: {
+     en: "Password recovery",
+@@ -18,6 +19,7 @@ export const EMAIL_SUBJECTS_TRANSLATIONS = {
+     cs: "Obnovení hesla",
+     es: "Recuperación de contraseña",
+     fr: "Récupération du mot de passe",
++    pt: "Recuperação de senha",
+   },
+   passwordReminderEmail: {
+     en: "Account creation reminder",
+@@ -27,6 +29,7 @@ export const EMAIL_SUBJECTS_TRANSLATIONS = {
+     cs: "Připomenutí vytvoření účtu",
+     es: "Recordatorio de creación de cuenta",
+     fr: "Rappel de création de compte",
++    pt: "Lembrete de criação de conta",
+   },
+   userInviteEmail: {
+     en: "You're invited to the platform!",
+@@ -36,6 +39,7 @@ export const EMAIL_SUBJECTS_TRANSLATIONS = {
+     cs: "Jsi pozván(a) na platformu!",
+     es: "¡Te han invitado a la plataforma!",
+     fr: "Vous êtes invité(e) à rejoindre la plateforme !",
++    pt: "Você foi convidado para a plataforma!",
+   },
+   userFirstLoginEmail: {
+     en: "First login!",
+@@ -45,6 +49,7 @@ export const EMAIL_SUBJECTS_TRANSLATIONS = {
+     cs: "První přihlášení!",
+     es: "¡Primer inicio de sesión!",
+     fr: "Première connexion !",
++    pt: "Primeiro acesso!",
+   },
+   userCourseAssignmentEmail: {
+     en: "New course - {{courseName}}",
+@@ -54,6 +59,7 @@ export const EMAIL_SUBJECTS_TRANSLATIONS = {
+     cs: "Nový kurz - {{courseName}}",
+     es: "Nuevo curso - {{courseName}}",
+     fr: "Nouveau cours - {{courseName}}",
++    pt: "Novo curso - {{courseName}}",
+   },
+   userShortInactivityEmail: {
+     en: "Continue your course - {{courseName}}",
+@@ -63,6 +69,7 @@ export const EMAIL_SUBJECTS_TRANSLATIONS = {
+     cs: "Pokračuj ve svém kurzu - {{courseName}}",
+     es: "Continúa tu curso - {{courseName}}",
+     fr: "Continuez votre cours - {{courseName}}",
++    pt: "Continue seu curso - {{courseName}}",
+   },
+   userShortInactivityPlatformEmail: {
+     en: "Continue your journey on the platform",
+@@ -72,6 +79,7 @@ export const EMAIL_SUBJECTS_TRANSLATIONS = {
+     cs: "Pokračuj ve své cestě na platformě",
+     es: "Continúa tu aprendizaje en la plataforma",
+     fr: "Poursuivez votre parcours sur la plateforme",
++    pt: "Continue sua jornada na plataforma",
+   },
+   userLongInactivityEmail: {
+     en: "Come back to your courses",
+@@ -81,6 +89,7 @@ export const EMAIL_SUBJECTS_TRANSLATIONS = {
+     cs: "Vrať se ke svým kurzům",
+     es: "Vuelve a tus cursos",
+     fr: "Reprenez vos cours",
++    pt: "Volte para seus cursos",
+   },
+   userChapterFinishedEmail: {
+     en: "Module completed - {{chapterName}}",
+@@ -90,6 +99,7 @@ export const EMAIL_SUBJECTS_TRANSLATIONS = {
+     cs: "Modul dokončen - {{chapterName}}",
+     es: "Módulo completado - {{chapterName}}",
+     fr: "Module terminé - {{chapterName}}",
++    pt: "Capítulo concluído - {{chapterName}}",
+   },
+   userCourseFinishedEmail: {
+     en: "Course completed - {{courseName}}",
+@@ -99,6 +109,7 @@ export const EMAIL_SUBJECTS_TRANSLATIONS = {
+     cs: "Kurz dokončen - {{courseName}}",
+     es: "Curso completado - {{courseName}}",
+     fr: "Cours terminé - {{courseName}}",
++    pt: "Curso concluído - {{courseName}}",
+   },
+   certificateExpirationWarningEmail: {
+     en: "Certificate expires soon - {{courseName}}",
+@@ -108,6 +119,7 @@ export const EMAIL_SUBJECTS_TRANSLATIONS = {
+     cs: "Certifikát brzy vyprší - {{courseName}}",
+     es: "El certificado caduca pronto - {{courseName}}",
+     fr: "Le certificat expire bientôt - {{courseName}}",
++    pt: "O certificado expira em breve - {{courseName}}",
+   },
+   certificateExpiredEmail: {
+     en: "Certificate reset - {{courseName}}",
+@@ -117,6 +129,7 @@ export const EMAIL_SUBJECTS_TRANSLATIONS = {
+     cs: "Certifikát resetován - {{courseName}}",
+     es: "Certificado restablecido - {{courseName}}",
+     fr: "Certificat réinitialisé - {{courseName}}",
++    pt: "Certificado redefinido - {{courseName}}",
+   },
+   adminNewUserEmail: {
+     en: "A new user has registered on your platform",
+@@ -126,6 +139,7 @@ export const EMAIL_SUBJECTS_TRANSLATIONS = {
+     cs: "Na tvé platformě se zaregistroval nový uživatel",
+     es: "Un nuevo usuario se ha registrado en tu plataforma",
+     fr: "Un nouvel utilisateur s'est inscrit sur votre plateforme",
++    pt: "Um novo usuário se cadastrou na sua plataforma",
+   },
+   adminCourseFinishedEmail: {
+     en: "A user has completed a course on your platform",
+@@ -135,6 +149,7 @@ export const EMAIL_SUBJECTS_TRANSLATIONS = {
+     cs: "Uživatel dokončil kurz na tvé platformě",
+     es: "Un usuario ha completado un curso en tu plataforma",
+     fr: "Un utilisateur a terminé un cours sur votre plateforme",
++    pt: "Um usuário concluiu um curso na sua plataforma",
+   },
+   adminOverdueCoursesEmail: {
+     en: "Overdue courses notification",
+@@ -144,6 +159,7 @@ export const EMAIL_SUBJECTS_TRANSLATIONS = {
+     cs: "Upozornění na kurzy po termínu",
+     es: "Notificación de cursos vencidos",
+     fr: "Notification de cours en retard",
++    pt: "Notificação de cursos atrasados",
+   },
+   courseDueDateReminderEmail: {
+     en: "Course deadline approaching - {{courseName}}",
+@@ -153,6 +169,7 @@ export const EMAIL_SUBJECTS_TRANSLATIONS = {
+     cs: "Termín kurzu se blíží - {{courseName}}",
+     es: "Se acerca la fecha límite del curso - {{courseName}}",
+     fr: "L'échéance du cours approche - {{courseName}}",
++    pt: "O prazo do curso está chegando - {{courseName}}",
+   },
+   magicLinkEmail: {
+     en: "Login link",
+@@ -162,6 +179,7 @@ export const EMAIL_SUBJECTS_TRANSLATIONS = {
+     cs: "Přihlašovací odkaz",
+     es: "Enlace de inicio de sesión",
+     fr: "Lien de connexion",
++    pt: "Link de acesso",
+   },
+   courseChatMentionEmail: {
+     en: "You were mentioned in {{courseName}}",
+@@ -171,6 +189,7 @@ export const EMAIL_SUBJECTS_TRANSLATIONS = {
+     cs: "Byl(a) jste zmíněn(a) v kurzu {{courseName}}",
+     es: "Te han mencionado en {{courseName}}",
+     fr: "Vous avez été mentionné(e) dans {{courseName}}",
++    pt: "Você foi mencionado em {{courseName}}",
+   },
+ } as const;
+ 
+diff --git a/apps/api/src/course-chat/chat-mention-localizations/chat-mention-content-localization.ts b/apps/api/src/course-chat/chat-mention-localizations/chat-mention-content-localization.ts
+index 8f60e22..21a736f 100644
+--- a/apps/api/src/course-chat/chat-mention-localizations/chat-mention-content-localization.ts
++++ b/apps/api/src/course-chat/chat-mention-localizations/chat-mention-content-localization.ts
+@@ -11,6 +11,7 @@ export function getLocalizedUserMentionContentAnnouncement(
+     cs: `V kurzu "${courseNames.cs}"`,
+     es: `En el curso "${courseNames.es}"`,
+     fr: `Dans le cours « ${courseNames.fr} »`,
++    pt: `No curso "${courseNames.pt}"`,
+   };
+   return content;
+ }
+diff --git a/apps/api/src/course-chat/chat-mention-localizations/chat-mention-title-localization.ts b/apps/api/src/course-chat/chat-mention-localizations/chat-mention-title-localization.ts
+index ac5a361..bf3c4a9 100644
+--- a/apps/api/src/course-chat/chat-mention-localizations/chat-mention-title-localization.ts
++++ b/apps/api/src/course-chat/chat-mention-localizations/chat-mention-title-localization.ts
+@@ -9,6 +9,7 @@ export function getLocalizedUserMentionTitleAnnouncement(mentioningUserFullName:
+     cs: `${mentioningUserFullName} vás zmínil`,
+     es: `${mentioningUserFullName} te mencionó`,
+     fr: `${mentioningUserFullName} vous a mentionné(e)`,
++    pt: `${mentioningUserFullName} mencionou você`,
+   };
+   return title;
+ }
+diff --git a/apps/api/src/course-chat/course-chat-email.translations.ts b/apps/api/src/course-chat/course-chat-email.translations.ts
+index e2f9d24..05dce19 100644
+--- a/apps/api/src/course-chat/course-chat-email.translations.ts
++++ b/apps/api/src/course-chat/course-chat-email.translations.ts
+@@ -10,6 +10,7 @@ export const getCourseChatMentionEmailHeading = (language: SupportedLanguages) =
+       cs: "Byl(a) jste zmíněn(a) v chatu kurzu",
+       es: "Te han mencionado en el chat del curso",
+       fr: "Vous avez été mentionné(e) dans la discussion du cours",
++      pt: "Você foi mencionado no chat do curso",
+     }) satisfies Record<SupportedLanguages, string>
+   )[language];
+ 
+@@ -23,6 +24,7 @@ export const getCourseChatMentionEmailButtonText = (language: SupportedLanguages
+       cs: "Otevřít diskuzi kurzu",
+       es: "Abrir debate del curso",
+       fr: "Ouvrir la discussion du cours",
++      pt: "Abrir discussão do curso",
+     }) satisfies Record<SupportedLanguages, string>
+   )[language];
+ 
+@@ -64,6 +66,10 @@ export const getCourseChatMentionEmailParagraphs = (
+       `Bonjour ${params.recipientName}, ${params.authorName} vous a mentionné(e) dans ${params.courseName}.`,
+       `"${params.messageContent}"`,
+     ],
++    pt: [
++      `Olá ${params.recipientName}, ${params.authorName} mencionou você em ${params.courseName}.`,
++      `"${params.messageContent}"`,
++    ],
+   } satisfies Record<SupportedLanguages, string[]>;
+ 
+   return translations[language];
+diff --git a/apps/api/src/courses/course-duplication.constants.ts b/apps/api/src/courses/course-duplication.constants.ts
+index 0e149c7..cf11511 100644
+--- a/apps/api/src/courses/course-duplication.constants.ts
++++ b/apps/api/src/courses/course-duplication.constants.ts
+@@ -10,4 +10,5 @@ export const COURSE_DUPLICATION_COPY_SUFFIX: Record<SupportedLanguages, string>
+   [SUPPORTED_LANGUAGES.CS]: "(Kopie)",
+   [SUPPORTED_LANGUAGES.ES]: "(Copia)",
+   [SUPPORTED_LANGUAGES.FR]: "(Copie)",
++  [SUPPORTED_LANGUAGES.PT]: "(Cópia)",
+ };
+diff --git a/apps/api/src/learning-path/services/learning-path-certificate.service.ts b/apps/api/src/learning-path/services/learning-path-certificate.service.ts
+index 95105b1..7ef9785 100644
+--- a/apps/api/src/learning-path/services/learning-path-certificate.service.ts
++++ b/apps/api/src/learning-path/services/learning-path-certificate.service.ts
+@@ -425,6 +425,10 @@ export class LearningPathCertificateService {
+         pageTitle: `Certificat de réussite du parcours de développement « ${title} »`,
+         pageDescription: `${context.certificate.fullName} a terminé le parcours de développement « ${title} » et obtenu un certificat.`,
+       },
++      pt: {
++        pageTitle: `Certificado de conclusão da trilha "${title}"`,
++        pageDescription: `${context.certificate.fullName} concluiu "${title}" e recebeu um certificado.`,
++      },
+     } as const satisfies Record<SupportedLanguages, { pageTitle: string; pageDescription: string }>;
+ 
+     const localizedContent = translations[context.language as SupportedLanguages];
+diff --git a/apps/api/src/live-training/live-training-announcements.constants.ts b/apps/api/src/live-training/live-training-announcements.constants.ts
+index 9573ed9..b10fd83 100644
+--- a/apps/api/src/live-training/live-training-announcements.constants.ts
++++ b/apps/api/src/live-training/live-training-announcements.constants.ts
+@@ -13,6 +13,7 @@ export const LIVE_TRAINING_ANNOUNCEMENT_TITLES = {
+     cs: "Živé školení brzy začne",
+     es: "La formación en vivo comenzará pronto",
+     fr: "La formation en direct commence bientôt",
++    pt: "O treinamento ao vivo começa em breve",
+   },
+   [ANNOUNCEMENT_EMAIL_TEMPLATES.LIVE_TRAINING_STARTED]: {
+     en: "Live Training has started",
+@@ -22,6 +23,7 @@ export const LIVE_TRAINING_ANNOUNCEMENT_TITLES = {
+     cs: "Živé školení začalo",
+     es: "La formación en vivo ha comenzado",
+     fr: "La formation en direct a commencé",
++    pt: "O treinamento ao vivo começou",
+   },
+   [ANNOUNCEMENT_EMAIL_TEMPLATES.LIVE_TRAINING_ENDED]: {
+     en: "Live Training has ended",
+@@ -31,6 +33,7 @@ export const LIVE_TRAINING_ANNOUNCEMENT_TITLES = {
+     cs: "Živé školení skončilo",
+     es: "La formación en vivo ha finalizado",
+     fr: "La formation en direct est terminée",
++    pt: "O treinamento ao vivo terminou",
+   },
+   [ANNOUNCEMENT_EMAIL_TEMPLATES.DEFAULT]: {
+     en: "Announcement",
+@@ -40,5 +43,6 @@ export const LIVE_TRAINING_ANNOUNCEMENT_TITLES = {
+     cs: "Oznámení",
+     es: "Anuncio",
+     fr: "Annonce",
++    pt: "Aviso",
+   },
+ } satisfies Record<AnnouncementEmailTemplate, Record<SupportedLanguages, string>>;
+diff --git a/apps/api/src/live-training/live-training-announcements.service.ts b/apps/api/src/live-training/live-training-announcements.service.ts
+index 2aae8e4..d0ba7eb 100644
+--- a/apps/api/src/live-training/live-training-announcements.service.ts
++++ b/apps/api/src/live-training/live-training-announcements.service.ts
+@@ -156,6 +156,7 @@ export class LiveTrainingAnnouncementsService {
+           cs: `Živé školení ${linkedTitle} začne ${formattedStart}.`,
+           es: `La formación en vivo ${linkedTitle} comienza el ${formattedStart}.`,
+           fr: `La formation en direct ${linkedTitle} commence le ${formattedStart}.`,
++          pt: `O treinamento ${linkedTitle} começa em ${formattedStart}.`,
+         });
+       case ANNOUNCEMENT_EMAIL_TEMPLATES.LIVE_TRAINING_STARTED:
+         return this.translate(language, {
+@@ -166,6 +167,7 @@ export class LiveTrainingAnnouncementsService {
+           cs: `Živé školení ${linkedTitle} nyní probíhá.`,
+           es: `La formación en vivo ${linkedTitle} está activa ahora.`,
+           fr: `La formation en direct ${linkedTitle} est en cours.`,
++          pt: `O treinamento ${linkedTitle} está em andamento.`,
+         });
+       default:
+         return this.translate(language, {
+@@ -176,6 +178,7 @@ export class LiveTrainingAnnouncementsService {
+           cs: `Živé školení ${linkedTitle} skončilo.`,
+           es: `La formación en vivo ${linkedTitle} ha finalizado.`,
+           fr: `La formation en direct ${linkedTitle} est terminée.`,
++          pt: `O treinamento ${linkedTitle} terminou.`,
+         });
+     }
+   }
+diff --git a/apps/api/src/news/constants/index.ts b/apps/api/src/news/constants/index.ts
+index b571a6a..079bf91 100644
+--- a/apps/api/src/news/constants/index.ts
++++ b/apps/api/src/news/constants/index.ts
+@@ -6,4 +6,5 @@ export const baseNewsTitle = {
+   cs: "Nepojmenovaný článek",
+   es: "Artículo sin título",
+   fr: "Article sans titre",
++  pt: "Artigo sem título",
+ };
+diff --git a/apps/api/src/report/constants/report-headers.ts b/apps/api/src/report/constants/report-headers.ts
+index ac8acf8..813079d 100644
+--- a/apps/api/src/report/constants/report-headers.ts
++++ b/apps/api/src/report/constants/report-headers.ts
+@@ -74,4 +74,13 @@ export const REPORT_HEADERS: Record<SupportedLanguages, ReportHeaders> = {
+     progressPercentage: "Progression (%)",
+     quizResults: "Résultats de la dernière tentative au quiz (%)",
+   },
++  pt: {
++    studentName: "Nome",
++    groupName: "Grupos",
++    courseName: "Nome do curso",
++    lessonCount: "Quantidade de lições",
++    completedLessons: "Lições concluídas",
++    progressPercentage: "Progresso (%)",
++    quizResults: "Resultados da última tentativa do questionário (%)",
++  },
+ };
+diff --git a/apps/web/app/assets/svgs/flags/index.ts b/apps/web/app/assets/svgs/flags/index.ts
+index 23130e5..f1846fc 100644
+--- a/apps/web/app/assets/svgs/flags/index.ts
++++ b/apps/web/app/assets/svgs/flags/index.ts
+@@ -5,3 +5,4 @@ export { default as CS } from "./cs-flag.svg?react";
+ export { default as LT } from "./lt-flag.svg?react";
+ export { default as ES } from "./es-flag.svg?react";
+ export { default as FR } from "./fr-flag.svg?react";
++export { default as PT } from "./pt-flag.svg?react";
+diff --git a/apps/web/app/components/LanguageSelector/languageOptions.ts b/apps/web/app/components/LanguageSelector/languageOptions.ts
+index 1030e17..c110ac8 100644
+--- a/apps/web/app/components/LanguageSelector/languageOptions.ts
++++ b/apps/web/app/components/LanguageSelector/languageOptions.ts
+@@ -8,6 +8,7 @@ export type LanguageOption = {
+ };
+ 
+ export const languageOptions: LanguageOption[] = [
++  { key: "pt", iconName: "PT", translationKey: "changeUserLanguageView.options.portuguese" },
+   { key: "pl", iconName: "PL", translationKey: "changeUserLanguageView.options.polish" },
+   { key: "en", iconName: "GB", translationKey: "changeUserLanguageView.options.english" },
+   { key: "de", iconName: "DE", translationKey: "changeUserLanguageView.options.german" },
+diff --git a/apps/web/app/locales/en/translation.json b/apps/web/app/locales/en/translation.json
+index ab343c1..b21c21f 100644
+--- a/apps/web/app/locales/en/translation.json
++++ b/apps/web/app/locales/en/translation.json
+@@ -400,7 +400,8 @@
+       "lt": "Lithuanian",
+       "cs": "Czech",
+       "es": "Spanish",
+-      "fr": "French"
++      "fr": "French",
++      "pt": "Portuguese (Brazil)"
+     },
+     "lessonTypes": {
+       "content": "Content",
+@@ -1253,7 +1254,8 @@
+       "czech": "Czech",
+       "lithuanian": "Lithuanian",
+       "spanish": "Spanish",
+-      "french": "French"
++      "french": "French",
++      "portuguese": "Portuguese (Brazil)"
+     }
+   },
+   "resetOnboarding": {
+diff --git a/apps/web/app/utils/getDateLocale.ts b/apps/web/app/utils/getDateLocale.ts
+index e6e0f91..db5506d 100644
+--- a/apps/web/app/utils/getDateLocale.ts
++++ b/apps/web/app/utils/getDateLocale.ts
+@@ -1,5 +1,5 @@
+ import { SUPPORTED_LANGUAGES } from "@repo/shared";
+-import { cs, de, enUS, es, fr, lt, pl } from "date-fns/locale";
++import { cs, de, enUS, es, fr, lt, pl, ptBR } from "date-fns/locale";
+ import { match } from "ts-pattern";
+ 
+ export function getDateLocale(language: string) {
+@@ -12,5 +12,6 @@ export function getDateLocale(language: string) {
+     .with(SUPPORTED_LANGUAGES.LT, () => lt)
+     .with(SUPPORTED_LANGUAGES.ES, () => es)
+     .with(SUPPORTED_LANGUAGES.FR, () => fr)
++    .with(SUPPORTED_LANGUAGES.PT, () => ptBR)
+     .otherwise(() => enUS);
+ }
+diff --git a/apps/web/i18n.ts b/apps/web/i18n.ts
+index 9491378..08ef7bd 100644
+--- a/apps/web/i18n.ts
++++ b/apps/web/i18n.ts
+@@ -9,11 +9,12 @@ import esTranslations from "app/locales/es/translation.json";
+ import frTranslations from "app/locales/fr/translation.json";
+ import ltTranslations from "app/locales/lt/translation.json";
+ import plTranslations from "app/locales/pl/translation.json";
++import ptTranslations from "app/locales/pt/translation.json";
+ 
+ // eslint-disable-next-line import/no-named-as-default-member
+ i18n.use(initReactI18next).init({
+   fallbackLng: SUPPORTED_LANGUAGES.EN,
+-  lng: import.meta.env.VITE_E2E === "true" ? "en" : "pl",
++  lng: import.meta.env.VITE_E2E === "true" ? "en" : "pt",
+   ns: ["translation"],
+   defaultNS: "translation",
+   interpolation: {
+@@ -26,6 +27,9 @@ i18n.use(initReactI18next).init({
+     pl: {
+       translation: plTranslations,
+     },
++    pt: {
++      translation: ptTranslations,
++    },
+     de: {
+       translation: deTranslations,
+     },
+diff --git a/apps/web/vite.config.ts b/apps/web/vite.config.ts
+index 952c137..7ca09f4 100644
+--- a/apps/web/vite.config.ts
++++ b/apps/web/vite.config.ts
+@@ -44,6 +44,10 @@ export default defineConfig(({ mode }) => {
+             src: "app/locales/pl/translation.json",
+             dest: "locales/pl",
+           },
++          {
++            src: "app/locales/pt/translation.json",
++            dest: "locales/pt",
++          },
+           ...(process.env.NODE_ENV === "production"
+             ? [
+                 { src: "app/assets/svgs/app-logo.svg", dest: "app/assets/svgs" },
+diff --git a/packages/shared/src/constants/languages.ts b/packages/shared/src/constants/languages.ts
+index d63581a..30e4b7a 100644
+--- a/packages/shared/src/constants/languages.ts
++++ b/packages/shared/src/constants/languages.ts
+@@ -6,6 +6,7 @@ export const SUPPORTED_LANGUAGES = {
+   CS: "cs",
+   ES: "es",
+   FR: "fr",
++  PT: "pt",
+ } as const;
+ 
+ export type SupportedLanguages = (typeof SUPPORTED_LANGUAGES)[keyof typeof SUPPORTED_LANGUAGES];
+diff --git a/packages/shared/src/utils/certificate.ts b/packages/shared/src/utils/certificate.ts
+index 31e1126..72b57ca 100644
+--- a/packages/shared/src/utils/certificate.ts
++++ b/packages/shared/src/utils/certificate.ts
+@@ -139,6 +139,19 @@ const certificateTranslations = {
+     expiryDate: "Expire le",
+     signature: "Signature",
+   },
++  pt: {
++    certificate: "CERTIFICADO",
++    courseCompletion: "DE CONCLUSÃO DO CURSO",
++    certifyThat: "CERTIFICAMOS QUE",
++    successfulCompletion: {
++      [CERTIFICATE_KIND.COURSE]: "concluiu com êxito o curso",
++      [CERTIFICATE_KIND.LEARNING_PATH]: "concluiu com êxito a trilha",
++    },
++    confirmation: "confirmando assim sua participação em todo o programa de formação.",
++    date: "Data",
++    expiryDate: "Válido até",
++    signature: "Assinatura",
++  },
+ };
+ 
+ export function buildCertificateMarkup(options: BuildCertificateMarkupOptions): string {
