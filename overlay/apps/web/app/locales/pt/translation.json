@@ -3808,7 +3808,8 @@
       "score": "Pontuação: {{score}}% ({{correct}} de {{questionsNumber}} perguntas)",
       "contentCantBeEmbedded": "Este conteúdo não pode ser incorporado.",
       "openInNewTab": "Abrir em nova aba",
-      "scale_1_5": "Pergunta de escala (1-5)"
+      "scale_1_5": "Pergunta de escala (1-5)",
+      "nextCourse": "Próximo curso"
     },
     "aiMentor": {
       "title": "Sessão com o Mentor IA",
@@ -4749,7 +4750,8 @@
       "showingPage": "Exibindo página {{page}} de {{total}}",
       "previous": "Anterior",
       "next": "Próxima",
-      "nextLesson": "Próxima lição"
+      "nextLesson": "Próxima lição",
+      "nextCourse": "Próximo curso"
     },
     "loadingAiAsset": {
       "processing": "O recurso está sendo processado"

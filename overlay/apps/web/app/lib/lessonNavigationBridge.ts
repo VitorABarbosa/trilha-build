@@ -1,20 +1,24 @@
 import { useEffect, useState } from "react";
 
 // Ponte entre a página da lição e blocos de conteúdo embutidos (ex.: visualizador
-// de PDF) que querem oferecer "Próxima lição" sem conhecer a navegação do curso.
-// A página publica se existe uma próxima lição acessível; o bloco pede a navegação.
+// de PDF) que querem oferecer "Próxima lição" / "Próximo curso" sem conhecer a
+// navegação do curso. A página publica se existe um próximo passo acessível e qual
+// é (lição ou curso da trilha); o bloco pede a navegação.
+
+export type NextStepTarget = "lesson" | "course";
+export type NextStepState = { available: boolean; target: NextStepTarget };
 
 const AVAILABILITY_EVENT = "trilha:lesson-next-availability";
 const REQUEST_EVENT = "trilha:lesson-request-next";
 
-let nextLessonAvailable = false;
+let current: NextStepState = { available: false, target: "lesson" };
 
 const hasWindow = () => typeof window !== "undefined";
 
-export function publishNextLessonAvailability(available: boolean) {
-  nextLessonAvailable = available;
+export function publishNextLessonAvailability(available: boolean, target: NextStepTarget = "lesson") {
+  current = { available, target };
   if (!hasWindow()) return;
-  window.dispatchEvent(new CustomEvent<boolean>(AVAILABILITY_EVENT, { detail: available }));
+  window.dispatchEvent(new CustomEvent<NextStepState>(AVAILABILITY_EVENT, { detail: current }));
 }
 
 export function requestNextLesson() {
@@ -28,15 +32,15 @@ export function onNextLessonRequest(handler: () => void) {
   return () => window.removeEventListener(REQUEST_EVENT, handler);
 }
 
-export function useNextLessonAvailability() {
-  const [available, setAvailable] = useState(nextLessonAvailable);
+export function useNextLessonAvailability(): NextStepState {
+  const [state, setState] = useState<NextStepState>(current);
 
   useEffect(() => {
-    setAvailable(nextLessonAvailable);
-    const handler = (event: Event) => setAvailable(Boolean((event as CustomEvent<boolean>).detail));
+    setState(current);
+    const handler = (event: Event) => setState((event as CustomEvent<NextStepState>).detail);
     window.addEventListener(AVAILABILITY_EVENT, handler);
     return () => window.removeEventListener(AVAILABILITY_EVENT, handler);
   }, []);
 
-  return available;
+  return state;
 }

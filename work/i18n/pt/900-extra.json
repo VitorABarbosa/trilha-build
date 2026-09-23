@@ -1,5 +1,7 @@
 {
   "common.languages.pt": "Português (Brasil)",
   "changeUserLanguageView.options.portuguese": "Português (Brasil)",
-  "richText.pdfPreview.nextLesson": "Próxima lição"
+  "richText.pdfPreview.nextLesson": "Próxima lição",
+  "richText.pdfPreview.nextCourse": "Próximo curso",
+  "studentLessonView.other.nextCourse": "Próximo curso"
 }

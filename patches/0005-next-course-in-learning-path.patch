@@ -1,0 +1,182 @@
+diff --git a/apps/web/app/components/RichText/extensions/pdfPreview/PdfPreviewViewer.tsx b/apps/web/app/components/RichText/extensions/pdfPreview/PdfPreviewViewer.tsx
+index 71116e6..0b48bab 100644
+--- a/apps/web/app/components/RichText/extensions/pdfPreview/PdfPreviewViewer.tsx
++++ b/apps/web/app/components/RichText/extensions/pdfPreview/PdfPreviewViewer.tsx
+@@ -28,7 +28,7 @@ export const PdfPreviewViewer = ({ src }: PdfPreviewViewerProps) => {
+   const viewerContainerRef = useRef<HTMLDivElement | null>(null);
+   const fullscreenStageRef = useRef<HTMLDivElement | null>(null);
+   const [isFullscreen, setIsFullscreen] = useState(false);
+-  const nextLessonAvailable = useNextLessonAvailability();
++  const { available: nextLessonAvailable, target: nextStepTarget } = useNextLessonAvailability();
+ 
+   useEffect(() => {
+     if (!src) return;
+@@ -363,7 +363,11 @@ export const PdfPreviewViewer = ({ src }: PdfPreviewViewerProps) => {
+                     requestNextLesson();
+                   }}
+                 >
+-                  {t("richText.pdfPreview.nextLesson")}
++                  {t(
++                    nextStepTarget === "course"
++                      ? "richText.pdfPreview.nextCourse"
++                      : "richText.pdfPreview.nextLesson",
++                  )}
+                   <ChevronRight className="size-3.5" aria-hidden />
+                 </Button>
+               )}
+diff --git a/apps/web/app/locales/en/translation.json b/apps/web/app/locales/en/translation.json
+index cbeb9d8..1409659 100644
+--- a/apps/web/app/locales/en/translation.json
++++ b/apps/web/app/locales/en/translation.json
+@@ -3773,6 +3773,7 @@
+       "goBackToCourse": "Go back to course"
+     },
+     "other": {
++      "nextCourse": "Next course",
+       "lesson": "Lesson",
+       "chapter": "Chapter",
+       "correctAnswers": "Correct answers:",
+@@ -4736,7 +4737,8 @@
+       "showingPage": "Showing page {{page}} of {{total}}",
+       "previous": "Previous",
+       "next": "Next",
+-      "nextLesson": "Next lesson"
++      "nextLesson": "Next lesson",
++      "nextCourse": "Next course"
+     },
+     "loadingAiAsset": {
+       "processing": "Resource is currently processing"
+diff --git a/apps/web/app/modules/Courses/Lesson/Lesson.page.tsx b/apps/web/app/modules/Courses/Lesson/Lesson.page.tsx
+index bd91b63..1dfc37a 100644
+--- a/apps/web/app/modules/Courses/Lesson/Lesson.page.tsx
++++ b/apps/web/app/modules/Courses/Lesson/Lesson.page.tsx
+@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
+ 
+ import { lessonQueryOptions, useCourse, useCurrentUser, useLesson } from "~/api/queries";
+ import { courseQueryOptions, getCourseQueryKey } from "~/api/queries/useCourse";
++import { ApiClient } from "~/api/api-client";
+ import { queryClient } from "~/api/queryClient";
+ import ErrorPage from "~/components/ErrorPage/ErrorPage";
+ import { LoaderWithTextSequence } from "~/components/LoaderWithTextSequence";
+@@ -16,6 +17,8 @@ import { CourseAccessProvider } from "~/modules/Courses/context/CourseAccessProv
+ import { LearningModeBanner } from "~/modules/Courses/Lesson/LearningModeBanner";
+ import { LessonContent } from "~/modules/Courses/Lesson/LessonContent";
+ import { LessonSidebar } from "~/modules/Courses/Lesson/LessonSidebar";
++import { navigateToNextLesson } from "~/modules/Courses/utils/navigateToNextLesson";
++import { useNextCourseInPath } from "~/modules/Courses/utils/useNextCourseInPath";
+ import { useLanguageStore } from "~/modules/Dashboard/Settings/Language/LanguageStore";
+ import { setPageTitle } from "~/utils/setPageTitle";
+ 
+@@ -45,6 +48,8 @@ export default function LessonPage() {
+   const { courseId = "", lessonId = "" } = useParams();
+ 
+   const { language, setLanguage } = useLanguageStore();
++  // Última lição de um curso dentro de uma trilha: o "próximo" vira o próximo curso.
++  const nextCourse = useNextCourseInPath(courseId);
+   const { data: user } = useCurrentUser();
+ 
+   const [error, setError] = useState(false);
+@@ -146,6 +151,13 @@ export default function LessonPage() {
+ 
+   function handleNextLesson(currentLessonId: string, chapters: Chapters) {
+     if (isLast) {
++      if (nextCourse) {
++        void ApiClient.api
++          .courseControllerGetCourse({ id: nextCourse.courseId, language })
++          .then((response) => navigateToNextLesson(response.data.data, navigate))
++          .catch(() => navigate(`/course/${nextCourse.courseId}`));
++        return;
++      }
+       navigate(`/course/${courseId}`);
+       return;
+     }
+@@ -243,6 +255,7 @@ export default function LessonPage() {
+                 handleNext={() => handleNextLesson(lessonId, course.chapters)}
+                 isFirstLesson={isFirst}
+                 isLastLesson={isLast}
++                nextCourse={nextCourse}
+                 lessonLoading={lessonLoading}
+               />
+             </div>
+diff --git a/apps/web/app/modules/Courses/Lesson/LessonContent.tsx b/apps/web/app/modules/Courses/Lesson/LessonContent.tsx
+index c7add58..b85418b 100644
+--- a/apps/web/app/modules/Courses/Lesson/LessonContent.tsx
++++ b/apps/web/app/modules/Courses/Lesson/LessonContent.tsx
+@@ -30,6 +30,7 @@ import { isNextBlocked, isPreviousBlocked } from "./utils";
+ 
+ import type { GetCourseResponse, GetLessonByIdResponse } from "~/api/generated-api";
+ import type { LessonPreviewUser } from "~/modules/Courses/Lesson/types";
++import type { NextCourseInPath } from "~/modules/Courses/utils/useNextCourseInPath";
+ 
+ type LessonContentProps = {
+   lesson: GetLessonByIdResponse["data"];
+@@ -42,6 +43,7 @@ type LessonContentProps = {
+   isFirstLesson: boolean;
+   isLastLesson: boolean;
+   lessonLoading: boolean;
++  nextCourse?: NextCourseInPath | null;
+ };
+ 
+ export const LessonContent = ({
+@@ -55,6 +57,7 @@ export const LessonContent = ({
+   isFirstLesson,
+   lessonLoading,
+   isLastLesson,
++  nextCourse = null,
+ }: LessonContentProps) => {
+   const { t } = useTranslation();
+ 
+@@ -66,11 +69,12 @@ export const LessonContent = ({
+   const { language } = useLanguageStore();
+ 
+   // Blocos embutidos (ex.: PDF) mostram "Próxima lição" e pedem a navegação por aqui.
+-  const canGoNext = !hideControls && !isNextDisabled;
++  const hasNextCourse = isLastLesson && Boolean(nextCourse);
++  const canGoNext = !hideControls && (!isNextDisabled || hasNextCourse);
+   useEffect(() => {
+-    publishNextLessonAvailability(canGoNext);
++    publishNextLessonAvailability(canGoNext, hasNextCourse ? "course" : "lesson");
+     return () => publishNextLessonAvailability(false);
+-  }, [canGoNext]);
++  }, [canGoNext, hasNextCourse]);
+   useEffect(
+     () =>
+       onNextLessonRequest(() => {
+@@ -304,15 +308,28 @@ export const LessonContent = ({
+                   >
+                     <Icon name="ArrowRight" className="h-auto w-4 rotate-180" />
+                   </Button>
+-                  <Button
+-                    data-testid={LEARNING_HANDLES.NEXT_LESSON_BUTTON}
+-                    variant="outline"
+-                    disabled={isNextDisabled}
+-                    className="w-full gap-x-1 sm:w-auto disabled:opacity-0"
+-                    onClick={handleNext}
+-                  >
+-                    <Icon name="ArrowRight" className="h-auto w-4" />
+-                  </Button>
++                  {hasNextCourse ? (
++                    <Button
++                      data-testid={LEARNING_HANDLES.NEXT_LESSON_BUTTON}
++                      variant="primary"
++                      className="w-full gap-x-1 sm:w-auto"
++                      title={nextCourse?.title}
++                      onClick={handleNext}
++                    >
++                      {t("studentLessonView.other.nextCourse")}
++                      <Icon name="ArrowRight" className="h-auto w-4" />
++                    </Button>
++                  ) : (
++                    <Button
++                      data-testid={LEARNING_HANDLES.NEXT_LESSON_BUTTON}
++                      variant="outline"
++                      disabled={isNextDisabled}
++                      className="w-full gap-x-1 sm:w-auto disabled:opacity-0"
++                      onClick={handleNext}
++                    >
++                      <Icon name="ArrowRight" className="h-auto w-4" />
++                    </Button>
++                  )}
+                 </div>
+               </div>
+             )}
