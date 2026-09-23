@@ -1,0 +1,76 @@
+diff --git a/apps/web/app/components/RichText/extensions/pdfPreview/PdfPreviewViewer.tsx b/apps/web/app/components/RichText/extensions/pdfPreview/PdfPreviewViewer.tsx
+index 0b48bab..fada2a3 100644
+--- a/apps/web/app/components/RichText/extensions/pdfPreview/PdfPreviewViewer.tsx
++++ b/apps/web/app/components/RichText/extensions/pdfPreview/PdfPreviewViewer.tsx
+@@ -270,36 +270,41 @@ export const PdfPreviewViewer = ({ src }: PdfPreviewViewerProps) => {
+               isFullscreen ? "flex min-h-0 flex-1 items-center justify-center overflow-hidden" : "",
+             )}
+           >
+-            <Page
+-              pageNumber={visiblePage}
+-              width={pageWidth}
+-              className={cn(
+-                isFullscreen ? "[&>canvas]:block" : "[&>canvas]:!h-auto [&>canvas]:!w-full",
+-              )}
+-              devicePixelRatio={canvasPixelRatio}
+-              renderAnnotationLayer={false}
+-              renderTextLayer={false}
+-              onLoadSuccess={updateAspectRatioFromPage}
+-              onRenderSuccess={
+-                isFullscreen && pdfAspectRatio === null ? updateAspectRatioFromCanvas : undefined
+-              }
+-            />
+-            {isPreloadingNextPage && (
+-              <div className="pointer-events-none absolute inset-0 opacity-0">
+-                <Page
+-                  pageNumber={currentPage}
+-                  width={pageWidth}
+-                  className={cn(
+-                    isFullscreen ? "[&>canvas]:block" : "[&>canvas]:!h-auto [&>canvas]:!w-full",
+-                  )}
+-                  devicePixelRatio={canvasPixelRatio}
+-                  renderAnnotationLayer={false}
+-                  renderTextLayer={false}
+-                  onRenderSuccess={() => dispatch({ type: PDF_VIEWER_ACTION.PRELOAD_SUCCESS })}
+-                  onRenderError={() => dispatch({ type: PDF_VIEWER_ACTION.PRELOAD_ERROR })}
+-                />
+-              </div>
+-            )}
++            {/* A página pré-carregada é a mesma instância (mesma key) que vira visível:
++                o canvas já desenhado é mantido e não há tela branca ao trocar de página. */}
++            {[visiblePage, ...(isPreloadingNextPage ? [currentPage] : [])].map((pageNumber) => {
++              const isVisible = pageNumber === visiblePage;
++              return (
++                <div
++                  key={pageNumber}
++                  className={isVisible ? "contents" : "pointer-events-none absolute inset-0 opacity-0"}
++                >
++                  <Page
++                    pageNumber={pageNumber}
++                    width={pageWidth}
++                    className={cn(
++                      isFullscreen ? "[&>canvas]:block" : "[&>canvas]:!h-auto [&>canvas]:!w-full",
++                    )}
++                    devicePixelRatio={canvasPixelRatio}
++                    renderAnnotationLayer={false}
++                    renderTextLayer={false}
++                    onLoadSuccess={isVisible ? updateAspectRatioFromPage : undefined}
++                    onRenderSuccess={
++                      isVisible
++                        ? isFullscreen && pdfAspectRatio === null
++                          ? updateAspectRatioFromCanvas
++                          : undefined
++                        : () => dispatch({ type: PDF_VIEWER_ACTION.PRELOAD_SUCCESS })
++                    }
++                    onRenderError={
++                      isVisible
++                        ? undefined
++                        : () => dispatch({ type: PDF_VIEWER_ACTION.PRELOAD_ERROR })
++                    }
++                  />
++                </div>
++              );
++            })}
+           </div>
+         </Document>
+         {pageCount && (

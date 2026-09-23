@@ -11,6 +11,7 @@ fixa, com interface em pt-BR aplicada como overlay no build. Sem fork.
   - `0003-pdf-preview-sharper-canvas`: PDF embutido renderizado em 2x (ficava borrado)
   - `0004-pdf-next-lesson-button`: botão "Próxima lição" na última página do PDF (também em tela cheia), via `overlay/apps/web/app/lib/lessonNavigationBridge.ts`
   - `0005-next-course-in-learning-path`: na última lição de um curso de trilha, "Próximo curso" leva direto ao próximo curso liberado (`overlay/.../useNextCourseInPath.ts`)
+  - `0006-pdf-preview-keep-preloaded-canvas`: troca de página do PDF sem tela branca (mantém o canvas pré-carregado)
 - Imagens: `ghcr.io/vitorabarbosa/trilha-api`, `ghcr.io/vitorabarbosa/trilha-web`
 - Operação (Compose, backup, VPS): repositório de infraestrutura, pasta `trilha/`
 - Design: `docs/superpowers/specs/2026-09-21-trilha-design.md`
