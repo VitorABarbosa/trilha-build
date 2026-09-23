@@ -1,0 +1,30 @@
+diff --git a/apps/web/app/components/RichText/extensions/pdfPreview/PdfPreviewViewer.tsx b/apps/web/app/components/RichText/extensions/pdfPreview/PdfPreviewViewer.tsx
+index 1a69c10..a43d10f 100644
+--- a/apps/web/app/components/RichText/extensions/pdfPreview/PdfPreviewViewer.tsx
++++ b/apps/web/app/components/RichText/extensions/pdfPreview/PdfPreviewViewer.tsx
+@@ -197,6 +197,9 @@ export const PdfPreviewViewer = ({ src }: PdfPreviewViewerProps) => {
+         )
+       : undefined;
+   const pageWidth = isFullscreen ? fullscreenPageWidth : (viewerWidth ?? undefined);
++  // Renderiza o canvas com pelo menos 2x para o PDF embutido não ficar borrado
++  // (a página é desenhada na largura da caixa e depois esticada pelo navegador).
++  const canvasPixelRatio = Math.max(2, typeof window !== "undefined" ? window.devicePixelRatio : 1);
+ 
+   const updateAspectRatioFromCanvas = () => {
+     const canvas = fullscreenStageRef.current?.querySelector("canvas");
+@@ -271,6 +274,7 @@ export const PdfPreviewViewer = ({ src }: PdfPreviewViewerProps) => {
+               className={cn(
+                 isFullscreen ? "[&>canvas]:block" : "[&>canvas]:!h-auto [&>canvas]:!w-full",
+               )}
++              devicePixelRatio={canvasPixelRatio}
+               renderAnnotationLayer={false}
+               renderTextLayer={false}
+               onLoadSuccess={updateAspectRatioFromPage}
+@@ -286,6 +290,7 @@ export const PdfPreviewViewer = ({ src }: PdfPreviewViewerProps) => {
+                   className={cn(
+                     isFullscreen ? "[&>canvas]:block" : "[&>canvas]:!h-auto [&>canvas]:!w-full",
+                   )}
++                  devicePixelRatio={canvasPixelRatio}
+                   renderAnnotationLayer={false}
+                   renderTextLayer={false}
+                   onRenderSuccess={() => dispatch({ type: PDF_VIEWER_ACTION.PRELOAD_SUCCESS })}

@@ -5,7 +5,10 @@ o LMS open source [Mentingo](https://github.com/Selleo/mentingo) numa tag
 fixa, com interface em pt-BR aplicada como overlay no build. Sem fork.
 
 - Versão do upstream: `MENTINGO_VERSION`
-- Overlay: `patches/*.patch` (git apply) + `overlay/` (arquivos novos)
+- Overlay: `patches/*.patch` (git apply, em ordem) + `overlay/` (arquivos novos)
+  - `0001-pt-br`: idioma pt (enum, web, API, e-mails, certificado)
+  - `0002-fix-password-change-redirect-loop`: laço na troca de senha obrigatória (bug upstream)
+  - `0003-pdf-preview-sharper-canvas`: PDF embutido renderizado em 2x (ficava borrado)
 - Imagens: `ghcr.io/vitorabarbosa/trilha-api`, `ghcr.io/vitorabarbosa/trilha-web`
 - Operação (Compose, backup, VPS): repositório de infraestrutura, pasta `trilha/`
 - Design: `docs/superpowers/specs/2026-09-21-trilha-design.md`
