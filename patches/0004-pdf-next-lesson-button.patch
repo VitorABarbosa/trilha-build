@@ -1,0 +1,91 @@
+diff --git a/apps/web/app/components/RichText/extensions/pdfPreview/PdfPreviewViewer.tsx b/apps/web/app/components/RichText/extensions/pdfPreview/PdfPreviewViewer.tsx
+index a43d10f..71116e6 100644
+--- a/apps/web/app/components/RichText/extensions/pdfPreview/PdfPreviewViewer.tsx
++++ b/apps/web/app/components/RichText/extensions/pdfPreview/PdfPreviewViewer.tsx
+@@ -3,6 +3,7 @@ import { useEffect, useReducer, useRef, useState } from "react";
+ import { useTranslation } from "react-i18next";
+ 
+ import { Button } from "~/components/ui/button";
++import { requestNextLesson, useNextLessonAvailability } from "~/lib/lessonNavigationBridge";
+ import { cn } from "~/lib/utils";
+ 
+ import { PDF_VIEWER_ACTION } from "./constants";
+@@ -27,6 +28,7 @@ export const PdfPreviewViewer = ({ src }: PdfPreviewViewerProps) => {
+   const viewerContainerRef = useRef<HTMLDivElement | null>(null);
+   const fullscreenStageRef = useRef<HTMLDivElement | null>(null);
+   const [isFullscreen, setIsFullscreen] = useState(false);
++  const nextLessonAvailable = useNextLessonAvailability();
+ 
+   useEffect(() => {
+     if (!src) return;
+@@ -351,6 +353,20 @@ export const PdfPreviewViewer = ({ src }: PdfPreviewViewerProps) => {
+                   </Button>
+                 </>
+               )}
++              {nextLessonAvailable && currentPage >= pageCount && (
++                <Button
++                  type="button"
++                  variant="primary"
++                  className="inline-flex items-center gap-1"
++                  onClick={() => {
++                    setIsFullscreen(false);
++                    requestNextLesson();
++                  }}
++                >
++                  {t("richText.pdfPreview.nextLesson")}
++                  <ChevronRight className="size-3.5" aria-hidden />
++                </Button>
++              )}
+               <Button
+                 type="button"
+                 variant={isFullscreen ? "ghost" : "outline"}
+diff --git a/apps/web/app/locales/en/translation.json b/apps/web/app/locales/en/translation.json
+index b21c21f..cbeb9d8 100644
+--- a/apps/web/app/locales/en/translation.json
++++ b/apps/web/app/locales/en/translation.json
+@@ -4735,7 +4735,8 @@
+       "openFile": "Open file",
+       "showingPage": "Showing page {{page}} of {{total}}",
+       "previous": "Previous",
+-      "next": "Next"
++      "next": "Next",
++      "nextLesson": "Next lesson"
+     },
+     "loadingAiAsset": {
+       "processing": "Resource is currently processing"
+diff --git a/apps/web/app/modules/Courses/Lesson/LessonContent.tsx b/apps/web/app/modules/Courses/Lesson/LessonContent.tsx
+index 1878285..c7add58 100644
+--- a/apps/web/app/modules/Courses/Lesson/LessonContent.tsx
++++ b/apps/web/app/modules/Courses/Lesson/LessonContent.tsx
+@@ -10,6 +10,10 @@ import { Badge } from "~/components/ui/badge";
+ import { Button } from "~/components/ui/button";
+ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "~/components/ui/tooltip";
+ import { pauseAllLessonVideos, resumeLessonVideo } from "~/components/VideoPlayer/Video";
++import {
++  onNextLessonRequest,
++  publishNextLessonAvailability,
++} from "~/lib/lessonNavigationBridge";
+ import { useLessonsSequence } from "~/hooks/useLessonsSequence";
+ import { LessonType } from "~/modules/Admin/EditCourse/EditCourse.types";
+ import { useCourseAccessProvider } from "~/modules/Courses/context/CourseAccessProvider";
+@@ -61,6 +65,20 @@ export const LessonContent = ({
+ 
+   const { language } = useLanguageStore();
+ 
++  // Blocos embutidos (ex.: PDF) mostram "Próxima lição" e pedem a navegação por aqui.
++  const canGoNext = !hideControls && !isNextDisabled;
++  useEffect(() => {
++    publishNextLessonAvailability(canGoNext);
++    return () => publishNextLessonAvailability(false);
++  }, [canGoNext]);
++  useEffect(
++    () =>
++      onNextLessonRequest(() => {
++        if (canGoNext) handleNext();
++      }),
++    [canGoNext, handleNext],
++  );
++
+   const { data: user } = useCurrentUser();
+   const { mutate: markLessonAsCompleted } = useMarkLessonAsCompleted(user?.id || "");
+   const { sequenceEnabled } = useLessonsSequence(course.id);

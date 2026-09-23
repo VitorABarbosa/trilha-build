@@ -9,6 +9,7 @@ fixa, com interface em pt-BR aplicada como overlay no build. Sem fork.
   - `0001-pt-br`: idioma pt (enum, web, API, e-mails, certificado)
   - `0002-fix-password-change-redirect-loop`: laço na troca de senha obrigatória (bug upstream)
   - `0003-pdf-preview-sharper-canvas`: PDF embutido renderizado em 2x (ficava borrado)
+  - `0004-pdf-next-lesson-button`: botão "Próxima lição" na última página do PDF (também em tela cheia), via `overlay/apps/web/app/lib/lessonNavigationBridge.ts`
 - Imagens: `ghcr.io/vitorabarbosa/trilha-api`, `ghcr.io/vitorabarbosa/trilha-web`
 - Operação (Compose, backup, VPS): repositório de infraestrutura, pasta `trilha/`
 - Design: `docs/superpowers/specs/2026-09-21-trilha-design.md`
